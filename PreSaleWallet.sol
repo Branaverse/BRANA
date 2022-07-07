@@ -4,9 +4,10 @@
 BRANAVERSE Pre-Sale WALLET
 *************************/
 
-import "./BRANA.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-pragma solidity = 0.8.13;
+pragma solidity = 0.8.15;
 
 contract BranaPreSaleWallet {
     using SafeMath for uint256;
@@ -14,7 +15,7 @@ contract BranaPreSaleWallet {
     address public constant zeroAddress = address(0x0);
     address public constant deadAddress = 0x000000000000000000000000000000000000dEaD;
     
-    Branaverse public BRANA;
+    ERC20 public BRANA;
     address private owner;
     uint256 public constant monthly = 30 days;
     uint256 public adminCount;
@@ -61,7 +62,7 @@ contract BranaPreSaleWallet {
         _;
         _status = _NOT_ENTERED;
     }
-    constructor(Branaverse _BRANA) {
+    constructor(ERC20 _BRANA) {
         owner = msg.sender;
         BRANA = _BRANA;
         _status = _NOT_ENTERED;
