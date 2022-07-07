@@ -6,7 +6,7 @@ BRANAVERSE Company WALLET
 
 import "./BRANA.sol";
 
-pragma solidity = 0.8.13;
+pragma solidity = 0.8.15;
 
 contract BranaCompanyWallet {
     using SafeMath for uint256;
