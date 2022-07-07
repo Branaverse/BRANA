@@ -148,8 +148,8 @@ contract BranaPrivateSaleWallet {
     }
     function withdrawalBRANA(uint256 _amount, uint256 decimal, address to) external onlyOwner() {
         uint256 amount = BRANA.balanceOf(address(this)).sub(privateSaleVault);
-        require(amount > 0 && _amount <= amount, "No BRANA!");// can only withdraw what is not locked for Private Sale Wallet.
         uint256 dcml = 10 ** decimal;
+        require(amount > 0 && _amount*dcml <= amount, "No BRANA!");// can only withdraw what is not locked for Private Sale Wallet.
         emit WithdrawalBRANA( _amount, decimal, to);
         BRANA.transfer(to, _amount*dcml);
     }
