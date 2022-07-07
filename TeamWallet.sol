@@ -4,7 +4,8 @@
 BRANAVERSE Team WALLET
 ************************/
 
-import "./BRANA.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 pragma solidity = 0.8.15;
 
@@ -14,7 +15,7 @@ contract BranaTeamWallet {
     address public constant zeroAddress = address(0x0);
     address public constant deadAddress = 0x000000000000000000000000000000000000dEaD;
     
-    Branaverse public BRANA;
+    ERC20 public BRANA;
     address private owner;
     uint256 public constant monthly = 30 days;
     uint256 public teamCount;
@@ -29,7 +30,7 @@ contract BranaTeamWallet {
 
     event TeamAdded(address Team, uint256 Amount);
     event BRANAClaimed(address Team, uint256 Amount);
-    event ChangeOwner(address NewOwner);
+    event ChangeOwner(address indexed oldOwner, address indexed newOwner);
     event WithdrawalBNB(uint256 _amount, uint256 decimal, address to); 
     event WithdrawalBRANA(uint256 _amount,uint256 decimal, address to);
     event WithdrawalBEP20(address _tokenAddr, uint256 _amount,uint256 decimals, address to);
@@ -70,7 +71,7 @@ contract BranaTeamWallet {
         _;
         _status = _NOT_ENTERED;
     }
-    constructor(Branaverse _BRANA) {
+    constructor(ERC20 _BRANA) {
         owner = msg.sender;
         teamCount = 0;
         IDteam = 0;
@@ -79,7 +80,7 @@ contract BranaTeamWallet {
     }
     function transferOwnership(address _newOwner)external onlyOwner{
         require(_newOwner != zeroAddress,"Zero Address");
-        emit ChangeOwner(_newOwner);
+        emit ChangeOwner(owner, _newOwner);
         owner = _newOwner;
     }
     function setMonthlyPercentage(uint256 _mP) external onlyOwner{
